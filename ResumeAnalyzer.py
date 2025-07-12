@@ -64,7 +64,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.title("🧠 AI Resume Analyzer")
-uploaded_file = st.file_uploader("📄 Upload Resume", type=["pdf", "txt"])
+uploaded_file = st.file_uploader("📄 Upload Resume", type=["pdf", "txt"], key="resume_upload")
+
 
 category_keywords_dict = {
     "Java Developer": ["java", "spring", "hibernate", "j2ee"],
