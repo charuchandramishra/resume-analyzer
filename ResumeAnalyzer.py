@@ -5,16 +5,13 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
+nltk_path = os.path.join(os.path.dirname(__file__), 'nltk_data')
+if not os.path.exists(nltk_path):
+    os.makedirs(nltk_path)
 
-nltk_data_dir = os.path.join(os.path.expanduser("~"), "nltk_data")
-if not os.path.exists(nltk_data_dir):
-    os.makedirs(nltk_data_dir, exist_ok=True)
+if nltk_path not in nltk.data.path:
+    nltk.data.path.append(nltk_path)
 
-# add the dir to NLTK’s 
-if nltk_data_dir not in nltk.data.path:
-    nltk.data.path.append(nltk_data_dir)
-
-# secure
 try:
     _create_unverified_https_context = ssl._create_unverified_context
     ssl._create_default_https_context = _create_unverified_https_context
@@ -25,8 +22,7 @@ for pkg in ("punkt", "stopwords"):
     try:
         nltk.data.find(f"tokenizers/{pkg}" if pkg == "punkt" else f"corpora/{pkg}")
     except LookupError:
-        nltk.download(pkg, download_dir=nltk_data_dir)
-# -------------------------------------------
+        nltk.download(pkg, download_dir=nltk_path)
 
 tfid  = pickle.load(open("tfid.pkl", "rb"))
 clf   = pickle.load(open("clf.pkl", "rb"))
@@ -44,21 +40,17 @@ def highlight_keywords(resume_text: str, key_list):
     sw = set(stopwords.words("english"))
     return list({w for w in tokens if w in key_list and w not in sw})
 
-# ---- Streamlit styling & UI ----
 st.set_page_config(page_title="AI Resume Analyzer", layout="wide")
-st.markdown(
-    """
+st.markdown("""
     <style>
     html, body, .stApp {background:#002244;color:#f1f1f1;}
     .stFileUploader, .stTextArea textarea {background:#1a2a44;color:#fff;border-radius:8px;}
     .stButton>button {background:#0d47a1;color:#fff;border:none;border-radius:8px;font-weight:600;}
     .highlight {color:#00ffff;font-weight:bold;}
     </style>
-    """,
-    unsafe_allow_html=True,
-)
+""", unsafe_allow_html=True)
 
-st.title("🧠 AI Resume Analyzer")
+st.title("AI Resume Analyzer")
 uploaded_file = st.file_uploader("📄 Upload Resume", type=["pdf", "txt"])
 
 category_keywords_dict = {
@@ -81,9 +73,13 @@ if uploaded_file:
     pred_id  = clf.predict(tfid.transform([cleaned]))[0]
     category = le.inverse_transform([pred_id])[0]
 
-    st.markdown(f"### 🎯 Predicted Category: **{category}**")
+    st.markdown(f"### Predicted Category: **{category}**")
+
     found = highlight_keywords(cleaned, category_keywords_dict.get(category, []))
     if found:
         st.markdown("**🔍 Matched Keywords:** " + ", ".join(f"`{w}`" for w in found))
     else:
         st.markdown("No category‑specific keywords found.")
+
+    st.download_button("⬇️ Download Category", category, file_name="category.txt", mime="text/plain")
+    st.download_button("⬇️ Download Keywords", "\n".join(found) if found else "No keywords found.", file_name="keywords.txt", mime="text/plain")
