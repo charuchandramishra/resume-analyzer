@@ -1,34 +1,23 @@
 import streamlit as st
-import pickle, re, os, ssl
+import pickle, re, os
 from PyPDF2 import PdfReader
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
-# NLTK data directory
-nltk_path = os.path.join(os.path.dirname(__file__), 'nltk_data')
+# ✅ Use ~/.nltk_data instead of local project path
+nltk_path = os.path.expanduser("~/.nltk_data")
 os.makedirs(nltk_path, exist_ok=True)
 
 if nltk_path not in nltk.data.path:
     nltk.data.path.append(nltk_path)
 
-try:
-    _create_unverified_https_context = ssl._create_unverified_context
-    ssl._create_default_https_context = _create_unverified_https_context
-except AttributeError:
-    pass
-
-for pkg in ("punkt", "stopwords"):
-    try:
-        nltk.data.find(f"tokenizers/{pkg}" if pkg == "punkt" else f"corpora/{pkg}")
-    except LookupError:
-        nltk.download(pkg, download_dir=nltk_path)
-
-# Load models
+# ✅ Load pretrained models
 tfid = pickle.load(open("tfid.pkl", "rb"))
-clf = pickle.load(open("clf.pkl", "rb"))
-le = pickle.load(open("label_encoder.pkl", "rb"))
+clf  = pickle.load(open("clf.pkl", "rb"))
+le   = pickle.load(open("label_encoder.pkl", "rb"))
 
+# ✅ Preprocessing functions
 def clean_resume(text: str) -> str:
     text = re.sub(r"https?\S+|www\.\S+", " ", text)
     text = re.sub(r"[@#]\S+", " ", text)
@@ -41,6 +30,7 @@ def highlight_keywords(resume_text: str, key_list):
     sw = set(stopwords.words("english"))
     return list({w for w in tokens if w in key_list and w not in sw})
 
+# ✅ Streamlit UI Setup
 st.set_page_config(page_title="AI Resume Analyzer", layout="wide")
 st.markdown("""
     <style>
@@ -51,9 +41,10 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("AI Resume Analyzer")
+st.title("🧠 AI Resume Analyzer")
 uploaded_file = st.file_uploader("📄 Upload Resume", type=["pdf", "txt"], key="resume")
 
+# ✅ Job Role Keywords
 category_keywords_dict = {
     "Java Developer": ["java", "spring", "hibernate", "j2ee"],
     "Python Developer": ["python", "django", "flask", "pandas"],
@@ -64,8 +55,8 @@ category_keywords_dict = {
     "Testing": ["selenium", "automation", "testcase", "junit"],
 }
 
+# ✅ Resume Handling & Prediction
 if uploaded_file:
-    resume_text = ""
     if uploaded_file.type == "application/pdf":
         resume_text = "".join(p.extract_text() or "" for p in PdfReader(uploaded_file).pages)
     else:
@@ -83,9 +74,8 @@ if uploaded_file:
     else:
         st.markdown("⚠️ No category-specific keywords found.")
 
+    # ✅ Download buttons
     st.download_button("⬇️ Download Category", category, file_name="category.txt", mime="text/plain")
     st.download_button("⬇️ Download Keywords", "\n".join(found) if found else "No keywords found.", file_name="keywords.txt", mime="text/plain")
 
-
-    st.write(cleaned)
-   
+      
