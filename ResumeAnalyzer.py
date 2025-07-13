@@ -4,8 +4,6 @@ from PyPDF2 import PdfReader
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
-
-
 import nltk
 import os
 import ssl
@@ -27,7 +25,7 @@ for pkg in ("stopwords",):
         nltk.data.find(f"corpora/{pkg}")
     except LookupError:
         nltk.download(pkg, download_dir=nltk_path)
-)
+
 
 
 tfid = pickle.load(open("tfid.pkl", "rb"))
