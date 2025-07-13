@@ -41,7 +41,6 @@ def highlight_keywords(resume_text: str, key_list):
     sw = set(stopwords.words("english"))
     return list({w for w in tokens if w in key_list and w not in sw})
 
-
 st.set_page_config(page_title="AI Resume Analyzer", layout="wide")
 st.markdown("""
     <style>
@@ -86,3 +85,7 @@ if uploaded_file:
 
     st.download_button("⬇️ Download Category", category, file_name="category.txt", mime="text/plain")
     st.download_button("⬇️ Download Keywords", "\n".join(found) if found else "No keywords found.", file_name="keywords.txt", mime="text/plain")
+
+
+    st.write(cleaned)
+   
