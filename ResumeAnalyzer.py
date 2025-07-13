@@ -3,7 +3,8 @@ import pickle, re, os
 from PyPDF2 import PdfReader
 import nltk
 from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
+from nltk.tokenize import RegexpTokenizer
+
 
 nltk_path = os.path.expanduser("~/.nltk_data")
 os.makedirs(nltk_path, exist_ok=True)
@@ -24,8 +25,10 @@ def clean_resume(text: str) -> str:
     text = re.sub(r"[!#$%&'()*+,<=>?@\[\]^_`{|}~]", " ", text)
     return re.sub(r"\s+", " ", text).strip()
 
+#Keyword Matching
 def highlight_keywords(resume_text: str, key_list):
-    tokens = word_tokenize(resume_text.lower())
+    tokenizer = RegexpTokenizer(r'\w+')
+    tokens = tokenizer.tokenize(resume_text.lower())
     sw = set(stopwords.words("english"))
     return list({w for w in tokens if w in key_list and w not in sw})
 
@@ -40,10 +43,10 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("🧠 AI Resume Analyzer")
+st.title("AI Resume Analyzer")
 uploaded_file = st.file_uploader("📄 Upload Resume", type=["pdf", "txt"], key="resume")
 
-# ✅ Job Role Keywords
+#  Keywords
 category_keywords_dict = {
     "Java Developer": ["java", "spring", "hibernate", "j2ee"],
     "Python Developer": ["python", "django", "flask", "pandas"],
@@ -73,8 +76,5 @@ if uploaded_file:
     else:
         st.markdown("⚠️ No category-specific keywords found.")
 
-  
     st.download_button("⬇️ Download Category", category, file_name="category.txt", mime="text/plain")
     st.download_button("⬇️ Download Keywords", "\n".join(found) if found else "No keywords found.", file_name="keywords.txt", mime="text/plain")
-
-      
