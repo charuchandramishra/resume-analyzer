@@ -5,19 +5,18 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
-# ✅ Use ~/.nltk_data instead of local project path
 nltk_path = os.path.expanduser("~/.nltk_data")
 os.makedirs(nltk_path, exist_ok=True)
 
 if nltk_path not in nltk.data.path:
     nltk.data.path.append(nltk_path)
 
-# ✅ Load pretrained models
+
 tfid = pickle.load(open("tfid.pkl", "rb"))
 clf  = pickle.load(open("clf.pkl", "rb"))
 le   = pickle.load(open("label_encoder.pkl", "rb"))
 
-# ✅ Preprocessing functions
+
 def clean_resume(text: str) -> str:
     text = re.sub(r"https?\S+|www\.\S+", " ", text)
     text = re.sub(r"[@#]\S+", " ", text)
@@ -30,7 +29,7 @@ def highlight_keywords(resume_text: str, key_list):
     sw = set(stopwords.words("english"))
     return list({w for w in tokens if w in key_list and w not in sw})
 
-# ✅ Streamlit UI Setup
+
 st.set_page_config(page_title="AI Resume Analyzer", layout="wide")
 st.markdown("""
     <style>
@@ -55,7 +54,7 @@ category_keywords_dict = {
     "Testing": ["selenium", "automation", "testcase", "junit"],
 }
 
-# ✅ Resume Handling & Prediction
+
 if uploaded_file:
     if uploaded_file.type == "application/pdf":
         resume_text = "".join(p.extract_text() or "" for p in PdfReader(uploaded_file).pages)
@@ -74,7 +73,7 @@ if uploaded_file:
     else:
         st.markdown("⚠️ No category-specific keywords found.")
 
-    # ✅ Download buttons
+  
     st.download_button("⬇️ Download Category", category, file_name="category.txt", mime="text/plain")
     st.download_button("⬇️ Download Keywords", "\n".join(found) if found else "No keywords found.", file_name="keywords.txt", mime="text/plain")
 
