@@ -6,11 +6,28 @@ from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
 
 
+import nltk
+import os
+import ssl
+
 nltk_path = os.path.expanduser("~/.nltk_data")
 os.makedirs(nltk_path, exist_ok=True)
 
 if nltk_path not in nltk.data.path:
     nltk.data.path.append(nltk_path)
+
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+    ssl._create_default_https_context = _create_unverified_https_context
+except AttributeError:
+    pass
+
+for pkg in ("stopwords",):
+    try:
+        nltk.data.find(f"corpora/{pkg}")
+    except LookupError:
+        nltk.download(pkg, download_dir=nltk_path)
+)
 
 
 tfid = pickle.load(open("tfid.pkl", "rb"))
