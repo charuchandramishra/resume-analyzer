@@ -83,20 +83,22 @@ def send_email(recipient, subject, body):
 
 st.set_page_config(page_title="AI Resume Analyzer", layout="wide")
 
-# Streamlit UI setup
-st.set_page_config(page_title="AI Resume Analyzer", layout="wide")
-
 st.markdown("""
 <style>
-/* Make the app background a full-page gradient */
+/* Full-page background gradient */
 html, body, .stApp {
     height: 100%;
     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-    color: #ffffff;
+    color: #ffffff !important;
     font-family: 'Segoe UI', sans-serif;
 }
 
-/* Customize file uploader and text area */
+/* Ensure all headings and text are white */
+h1, h2, h3, h4, h5, h6, p, span, div, label, code {
+    color: #ffffff !important;
+}
+
+/* File uploader and textarea */
 .stFileUploader, .stTextArea textarea {
     background-color: #142850;
     color: #ffffff;
@@ -105,32 +107,38 @@ html, body, .stApp {
     padding: 10px;
 }
 
-/* Customize buttons */
+/* Buttons */
 .stButton > button {
     background-color: #0d47a1;
     color: #ffffff;
     font-weight: 600;
     border-radius: 8px;
-    border: none;
     padding: 0.5rem 1rem;
     transition: background-color 0.3s ease;
+    border: none;
 }
 .stButton > button:hover {
     background-color: #1565c0;
 }
 
-/* Highlighted text (keywords, etc.) */
+/* Highlighted keyword text */
 .highlight {
     color: #39ff14;
     font-weight: bold;
 }
 
-/* Optional: box shadow and better input styling */
+/* Input and textarea box styling */
 input, textarea {
     box-shadow: 0 0 8px rgba(0,0,0,0.2);
 }
+
+/* Markdown text (like summary, job category) */
+[data-testid="stMarkdownContainer"] > div {
+    color: #ffffff !important;
+}
 </style>
 """, unsafe_allow_html=True)
+
 
 st.title("🤖 AI Resume Analyzer")
 
