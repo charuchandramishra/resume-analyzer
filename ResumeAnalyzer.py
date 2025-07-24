@@ -83,37 +83,32 @@ def send_email(recipient, subject, body):
 
 st.set_page_config(page_title="AI Resume Analyzer", layout="wide")
 
+# Streamlit UI setup
+st.set_page_config(page_title="AI Resume Analyzer", layout="wide")
+
 st.markdown("""
 <style>
-/* Full-screen background image */
 html, body, .stApp {
-    background: url("https://images.unsplash.com/photo-1581093588401-12c6430687e8?fit=crop&w=1400&q=80") no-repeat center center fixed;
-    background-size: cover;
-    color: #ffffff !important;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: #ffffff;
 }
-
-/* Make all text white */
-h1, h2, h3, h4, h5, h6, p, span, div, label, code, .stMarkdown {
-    color: #ffffff !important;
-}
-
-/* File uploader and textarea with dark semi-transparent background */
 .stFileUploader, .stTextArea textarea {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: #142850;
     color: #ffffff;
     border-radius: 8px;
 }
-
-/* Buttons with slight dark background */
-.stButton > button {
-    background-color: rgba(0, 0, 0, 0.7);
+.stButton>button {
+    background-color: #0d47a1;
     color: #ffffff;
-    border-radius: 6px;
     font-weight: 600;
-    border: none;
+    border-radius: 8px;
 }
+.highlight { color: #00ffff; font-weight: bold; }
 </style>
 """, unsafe_allow_html=True)
+
+this is the code it show in green in color category
+and summmy is very light dont show properly
 
 
 
