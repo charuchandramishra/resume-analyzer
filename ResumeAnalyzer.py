@@ -93,7 +93,7 @@ html, body, .stApp {
     color: #ffffff;
 }
 .stFileUploader, .stTextArea textarea {
-    background-color: #142850;
+    background-color:;
     color: #ffffff;
     border-radius: 8px;
 }
