@@ -83,78 +83,29 @@ def send_email(recipient, subject, body):
 
 st.set_page_config(page_title="AI Resume Analyzer", layout="wide")
 
+# Streamlit UI setup
+st.set_page_config(page_title="AI Resume Analyzer", layout="wide")
+
 st.markdown("""
 <style>
-/* Background and base text color */
 html, body, .stApp {
     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
     color: #ffffff;
-    font-family: 'Segoe UI', sans-serif;
 }
-
-/* File uploader & text area */
 .stFileUploader, .stTextArea textarea {
     background-color: #142850;
     color: #ffffff;
     border-radius: 8px;
-    border: 1px solid #00bcd4;
 }
-
-/* Buttons */
-.stButton > button {
+.stButton>button {
     background-color: #0d47a1;
     color: #ffffff;
     font-weight: 600;
     border-radius: 8px;
-    border: none;
-    padding: 10px 16px;
-    transition: 0.3s ease;
 }
-.stButton > button:hover {
-    background-color: #1976d2;
-    transform: scale(1.02);
-}
-
-/* Highlight text (e.g., keywords) */
-.highlight {
-    color: #00ffff;
-    font-weight: bold;
-}
-
-/* Section cards like summary, prediction */
-.custom-card {
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 20px;
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
-}
-
-/* Headings inside cards */
-.custom-card h3 {
-    color: #00ffff;
-    margin-bottom: 10px;
-}
-
-/* Paragraph text inside cards */
-.custom-card p {
-    color: #ffffff;
-    font-size: 16.5px;
-    line-height: 1.5;
-}
-
-/* Input email box */
-input[type="text"], input[type="email"] {
-    background-color: #142850;
-    color: #ffffff;
-    border: 1px solid #00bcd4;
-    border-radius: 8px;
-    padding: 8px;
-}
+.highlight { color: #39ff14; font-weight: bold; }
 </style>
 """, unsafe_allow_html=True)
-
-
 st.title("🤖 AI Resume Analyzer")
 
 uploaded_file = st.file_uploader("📄 Upload Resume", type=["pdf", "txt"])
@@ -199,7 +150,7 @@ if uploaded_file:
     st.download_button("⬇️ Download Keywords", "\n".join(found), file_name="keywords.txt", mime="text/plain")
 
     st.subheader("✉️ Send Summary via Email")
-    email_input = st.text_input("Enter recipient {email}:")
+    email_input = st.text_input(f"Enter recipient {email}:")
     if st.button("Send Email"):
         success = send_email(email_input, "Your Resume Summary", f"Category: {category}\n\nSummary:\n{summary}")
         if success:
