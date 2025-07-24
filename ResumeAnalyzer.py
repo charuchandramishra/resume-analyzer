@@ -1,6 +1,7 @@
 import streamlit as st
 import pickle, re, os, ssl, smtplib
 from PyPDF2 import PdfReader
+import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
 from email.mime.text import MIMEText
