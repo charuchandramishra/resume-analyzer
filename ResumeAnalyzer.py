@@ -85,59 +85,36 @@ st.set_page_config(page_title="AI Resume Analyzer", layout="wide")
 
 st.markdown("""
 <style>
-/* Full-page background gradient */
+/* Full-screen background image */
 html, body, .stApp {
-    height: 100%;
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-    color: #ffffff !important;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-/* Ensure all headings and text are white */
-h1, h2, h3, h4, h5, h6, p, span, div, label, code {
+    background: url("https://images.unsplash.com/photo-1581093588401-12c6430687e8?fit=crop&w=1400&q=80") no-repeat center center fixed;
+    background-size: cover;
     color: #ffffff !important;
 }
 
-/* File uploader and textarea */
+/* Make all text white */
+h1, h2, h3, h4, h5, h6, p, span, div, label, code, .stMarkdown {
+    color: #ffffff !important;
+}
+
+/* File uploader and textarea with dark semi-transparent background */
 .stFileUploader, .stTextArea textarea {
-    background-color: #142850;
+    background-color: rgba(0, 0, 0, 0.6);
     color: #ffffff;
     border-radius: 8px;
-    border: 1px solid #ffffff33;
-    padding: 10px;
 }
 
-/* Buttons */
+/* Buttons with slight dark background */
 .stButton > button {
-    background-color: #0d47a1;
+    background-color: rgba(0, 0, 0, 0.7);
     color: #ffffff;
+    border-radius: 6px;
     font-weight: 600;
-    border-radius: 8px;
-    padding: 0.5rem 1rem;
-    transition: background-color 0.3s ease;
     border: none;
-}
-.stButton > button:hover {
-    background-color: #1565c0;
-}
-
-/* Highlighted keyword text */
-.highlight {
-    color: #39ff14;
-    font-weight: bold;
-}
-
-/* Input and textarea box styling */
-input, textarea {
-    box-shadow: 0 0 8px rgba(0,0,0,0.2);
-}
-
-/* Markdown text (like summary, job category) */
-[data-testid="stMarkdownContainer"] > div {
-    color: #ffffff !important;
 }
 </style>
 """, unsafe_allow_html=True)
+
 
 
 st.title("🤖 AI Resume Analyzer")
