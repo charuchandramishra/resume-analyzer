@@ -88,24 +88,50 @@ st.set_page_config(page_title="AI Resume Analyzer", layout="wide")
 
 st.markdown("""
 <style>
+/* Make the app background a full-page gradient */
 html, body, .stApp {
+    height: 100%;
     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
     color: #ffffff;
+    font-family: 'Segoe UI', sans-serif;
 }
+
+/* Customize file uploader and text area */
 .stFileUploader, .stTextArea textarea {
-    background-color:;
+    background-color: #142850;
     color: #ffffff;
     border-radius: 8px;
+    border: 1px solid #ffffff33;
+    padding: 10px;
 }
-.stButton>button {
+
+/* Customize buttons */
+.stButton > button {
     background-color: #0d47a1;
     color: #ffffff;
     font-weight: 600;
     border-radius: 8px;
+    border: none;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease;
 }
-.highlight { color: #39ff14; font-weight: bold; }
+.stButton > button:hover {
+    background-color: #1565c0;
+}
+
+/* Highlighted text (keywords, etc.) */
+.highlight {
+    color: #39ff14;
+    font-weight: bold;
+}
+
+/* Optional: box shadow and better input styling */
+input, textarea {
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+}
 </style>
 """, unsafe_allow_html=True)
+
 st.title("🤖 AI Resume Analyzer")
 
 uploaded_file = st.file_uploader("📄 Upload Resume", type=["pdf", "txt"])
