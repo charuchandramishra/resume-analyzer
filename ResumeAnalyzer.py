@@ -81,8 +81,6 @@ def send_email(recipient, subject, body):
     except Exception as e:
         return False
 
-st.set_page_config(page_title="AI Resume Analyzer", layout="wide")
-
 # Streamlit UI setup
 st.set_page_config(page_title="AI Resume Analyzer", layout="wide")
 
@@ -106,12 +104,6 @@ html, body, .stApp {
 .highlight { color: #00ffff; font-weight: bold; }
 </style>
 """, unsafe_allow_html=True)
-
-this is the code it show in green in color category
-and summmy is very light dont show properly
-
-
-
 st.title("🤖 AI Resume Analyzer")
 
 uploaded_file = st.file_uploader("📄 Upload Resume", type=["pdf", "txt"])
