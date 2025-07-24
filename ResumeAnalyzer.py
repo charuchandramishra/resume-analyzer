@@ -47,8 +47,8 @@ def highlight_keywords(text, key_list):
 def extract_info(text):
     email = re.findall(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", text)
     phone = re.findall(r"\+?\d[\d\s\-]{8,15}", text)
-    linkedin = re.findall(r"https?://(www\.)?linkedin\.com/in/[A-Za-z0-9\-_]+", text)
-    github = re.findall(r"https?://(www\.)?github\.com/[A-Za-z0-9\-_]+", text)
+    linkedin = re.findall(r"https?://(?:www\.)?linkedin\.com/in/[A-Za-z0-9\-_]+", text)
+    github = re.findall(r"https?://(?:www\.)?github\.com/[A-Za-z0-9\-_]+", text)
     return {
         "Email": email[0] if email else "Not found",
         "Phone": phone[0] if phone else "Not found",
