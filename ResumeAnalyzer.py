@@ -199,7 +199,7 @@ if uploaded_file:
     st.download_button("⬇️ Download Keywords", "\n".join(found), file_name="keywords.txt", mime="text/plain")
 
     st.subheader("✉️ Send Summary via Email")
-    email_input = st.text_input("Enter recipient email:",email)
+    email_input = st.text_input("Enter recipient {email}:")
     if st.button("Send Email"):
         success = send_email(email_input, "Your Resume Summary", f"Category: {category}\n\nSummary:\n{summary}")
         if success:
