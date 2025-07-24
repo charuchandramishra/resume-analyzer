@@ -63,7 +63,7 @@ def summarize_text(text, limit=60):
 
 def send_email(recipient, subject, body):
     sender = vidzzall@gmail.com
-    password = ezcu gzak yipp pnto
+    password = ezcugzakyipppnto
 
     msg = MIMEMultipart()
     msg["From"] = sender
