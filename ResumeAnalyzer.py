@@ -130,3 +130,29 @@ if uploaded_file:
     category = le.inverse_transform([pred_id])[0]
 
     st.subheader("🎯 Predicted Job Category:")
+    st.success(category)
+
+    st.subheader("🧠 Resume Summary")
+    summary = summarize_text(cleaned)
+    st.info(summary)
+
+    st.subheader("🔍 Matched Keywords")
+    found = highlight_keywords(cleaned, category_keywords_dict.get(category, []))
+    st.write(", ".join(f"`{w}`" for w in found) if found else "No keywords found.")
+
+    st.subheader("📬 Contact Information Extracted")
+    info = extract_info(resume_text)
+    for k, v in info.items():
+        st.write(f"**{k}:** {v}")
+
+    st.download_button("⬇️ Download Category", category, file_name="category.txt", mime="text/plain")
+    st.download_button("⬇️ Download Keywords", "\n".join(found), file_name="keywords.txt", mime="text/plain")
+
+    st.subheader("✉️ Send Summary via Email (Optional)")
+    email_input = st.text_input("Enter recipient email:")
+    if st.button("Send Email"):
+        success = send_email(email_input, "Your Resume Summary", f"Category: {category}\n\nSummary:\n{summary}")
+        if success:
+            st.success("📩 Email sent successfully!")
+        else:
+            st.error("❌ Failed to send email. Check credentials or connection.")
